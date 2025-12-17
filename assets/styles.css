@@ -292,3 +292,58 @@ button {
   border: 1px solid #c9efd0;
 }
 
+.filter-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter-card.hidden {
+    display: none;
+}
+
+.filter-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.filter-actions button {
+    flex: 1;
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#apply-filters {
+    background: #2b7df6;
+    color: white;
+}
+
+#clear-filters {
+    background: #eef2fb;
+    color: #2b2b2b;
+}
+
+#close-filter-card {
+    background: #ccc;
+    color: #1a1a1a;
+}

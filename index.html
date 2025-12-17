@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gestor de Tareas - CRUD</title>
     <link rel="stylesheet" href="assets/styles.css" />
-    <!-- iconos simples -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -62,10 +61,15 @@
                 <div id="stats"></div>
             </div>
 
-            <div class="controls">
+            <button id="open-filter-card" class="toggle-filters-btn">
+                <i class="fa fa-filter"></i> Filtros
+            </button>
+
+            <div id="filter-card" class="filter-card hidden">
+                <h3>Filtrar Tareas</h3>
                 <div class="filter-group">
                     <label>Filtrar por materia:
-                        <input type="text" id="filter-subject" placeholder="Escribe y presiona Enter" />
+                        <input type="text" id="filter-subject" placeholder="Escribe y presiona Aplicar" />
                     </label>
                     <label>Prioridad:
                         <select id="filter-priority">
@@ -85,7 +89,12 @@
                             <option value="priority-desc">Prioridad</option>
                         </select>
                     </label>
-                    <button id="clear-filters">Limpiar filtros</button>
+                </div>
+
+                <div class="filter-actions">
+                    <button id="apply-filters">Aplicar Filtros</button>
+                    <button id="clear-filters">Limpiar</button>
+                    <button id="close-filter-card">Cerrar</button>
                 </div>
             </div>
 

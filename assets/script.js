@@ -196,4 +196,31 @@ document.getElementById("clear-filters").addEventListener("click", () => {
   render();
 });
 
+const openFilterCardBtn = document.getElementById("open-filter-card");
+const filterCard = document.getElementById("filter-card");
+const closeFilterCardBtn = document.getElementById("close-filter-card");
+const applyFiltersBtn = document.getElementById("apply-filters");
+
+openFilterCardBtn.addEventListener("click", () => {
+    filterCard.classList.remove("hidden");
+});
+
+closeFilterCardBtn.addEventListener("click", () => {
+    filterCard.classList.add("hidden");
+});
+
+applyFiltersBtn.addEventListener("click", () => {
+    render();
+    filterCard.classList.add("hidden");
+});
+
+document.getElementById("clear-filters").addEventListener("click", () => {
+    document.getElementById("filter-subject").value = "";
+    document.getElementById("filter-priority").value = "";
+    document.getElementById("sort-by").value = "date-asc";
+    render();
+    filterCard.classList.add("hidden");
+});
+
+
 render();
