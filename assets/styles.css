@@ -273,3 +273,22 @@ button {
     font-size: 1.15rem;
   }
 }
+
+.badge-status-Pendiente {
+  background: #eef2fb;
+  color: #2b2b2b;
+  border: 1px solid #cbd8f2;
+}
+
+.badge-status-Retrasada {
+  background: #ffecec;
+  color: #900;
+  border: 1px solid #ffcfcf;
+}
+
+.badge-status-Completada {
+  background: #e8f7ea;
+  color: #12621a;
+  border: 1px solid #c9efd0;
+}
+

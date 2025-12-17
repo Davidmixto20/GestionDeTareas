@@ -31,11 +31,12 @@ form.addEventListener("submit", function (e) {
     subject: document.getElementById("subject").value,
     priority: document.getElementById("priority").value,
     title: document.getElementById("title").value,
-    description: document.getElementById("description").value
+    description: document.getElementById("description").value,
+    completed: editing ? getTasks().find(t => t.id == idField).completed : false
   };
 
   let tasks = getTasks();
-
+  
   if (editing) {
     tasks = tasks.map(t => t.id === task.id ? task : t);
   } else {
@@ -55,6 +56,12 @@ function resetForm() {
   formTitle.textContent = "Agregar Tarea";
 }
 
+function getTaskStatus(task) {
+  if(task.completed) return "Completada";
+  const today = new Date().toISOString().split("T")[0];
+  return task.dueDate < today ? "Retrasada" : "Pendiente";
+}
+
 function render() {
   let tasks = getTasks();
 
@@ -68,12 +75,8 @@ function render() {
     tasks = tasks.filter(t => t.priority === filterPriority.value);
   }
 
-  if (sortBy.value === "date-asc") {
-    tasks.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-  }
-  if (sortBy.value === "date-desc") {
-    tasks.sort((a, b) => b.dueDate.localeCompare(a.dueDate));
-  }
+  if (sortBy.value === "date-asc") tasks.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  if (sortBy.value === "date-desc") tasks.sort((a, b) => b.dueDate.localeCompare(a.dueDate));
   if (sortBy.value === "priority-desc") {
     const order = { Alta: 3, Media: 2, Baja: 1 };
     tasks.sort((a, b) => order[b.priority] - order[a.priority]);
@@ -98,26 +101,35 @@ function drawCards(tasks) {
     card.innerHTML = `
       <div class="top">
         <span class="date">${task.dueDate}</span>
-        <span class="badge badge-priority-${task.priority}">
-          ${task.priority}
-        </span>
+        <span class="badge badge-priority-${task.priority}">${task.priority}</span>
+        <span class="badge badge-status-${getTaskStatus(task)}">${getTaskStatus(task)}</span>
       </div>
 
       <h3>${task.title}</h3>
       <p class="desc">${task.description}</p>
       <p class="small"><b>Materia:</b> ${task.subject}</p>
-
+      
       <div class="actions">
         <button class="btn-edit"><i class="fa fa-eye"></i> Ver más</button>
         <button class="btn-delete"><i class="fa fa-trash"></i></button>
+        ${!task.completed ? `<button class="btn-complete" title="Completar"><i class="fa fa-check"></i></button>` : ""}
       </div>
     `;
 
     card.querySelector(".btn-edit").onclick = () => openModal(task);
     card.querySelector(".btn-delete").onclick = () => deleteTask(task.id);
 
+    const completeBtn = card.querySelector(".btn-complete");
+    if (completeBtn) completeBtn.onclick = () => toggleComplete(task.id);
+
     cardsContainer.appendChild(card);
   });
+}
+
+function toggleComplete(id) {
+  let tasks = getTasks().map(t => t.id === id ? {...t, completed: true} : t);
+  saveTasks(tasks);
+  render();
 }
 
 function deleteTask(id) {
@@ -134,6 +146,7 @@ function openModal(task) {
     <p><b>Materia:</b> ${task.subject}</p>
     <p><b>Prioridad:</b> ${task.priority}</p>
     <p><b>Fecha de entrega:</b> ${task.dueDate}</p>
+    <p><b>Estado:</b> ${getTaskStatus(task)}</p>
     <hr>
     <p>${task.description}</p>
     <br>
@@ -171,7 +184,7 @@ function loadTaskInForm(task) {
 function updateStats(tasks) {
   stats.textContent = `Total: ${tasks.length}`;
 }
-  
+
 
 filterPriority.addEventListener("change", render);
 sortBy.addEventListener("change", render);
